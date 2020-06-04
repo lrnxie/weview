@@ -1,9 +1,12 @@
 import React from "react";
-
-import Typography from "@material-ui/core/Typography";
+import Navbar from "./components/layout/Navbar";
 
 function App() {
-  return <Typography variant="h2">Hello WeView</Typography>;
+  return (
+    <div>
+      <Navbar />
+    </div>
+  );
 }
 
 export default App;
