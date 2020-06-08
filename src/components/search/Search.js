@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+import { withRouter } from "react-router-dom";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
@@ -14,22 +14,14 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const Search = () => {
+const Search = ({ history }) => {
   const classes = useStyles();
   const [query, setQuery] = useState("");
 
-  const searchQuery = async (query) => {
-    const res = await axios.get(`https://api.themoviedb.org/3/search/multi?api_key=${process.env.REACT_APP_TMDB_API_KEY}&query=${query}
-    `);
-    console.log(
-      res.data.results.filter((item) => item.media_type !== "person")
-    );
-  };
-
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (query) {
-      searchQuery(query);
+    if (query.trim()) {
+      history.push(`search/${query.trim()}`);
       setQuery("");
     }
   };
@@ -58,4 +50,4 @@ const Search = () => {
   );
 };
 
-export default Search;
+export default withRouter(Search);
