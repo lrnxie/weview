@@ -1,16 +1,17 @@
 import React from "react";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
+
 import Navbar from "./components/layout/Navbar";
-import Trending from "./components/trending/Trending";
-import Search from "./components/search/Search";
+import Home from "./components/layout/Home";
 
 function App() {
   return (
-    <div>
+    <BrowserRouter>
       <Navbar />
-      <Search />
-      <Trending type="movie" />
-      <Trending type="tv" />
-    </div>
+      <Switch>
+        <Route exact path="/" component={Home} />
+      </Switch>
+    </BrowserRouter>
   );
 }
 
