@@ -16,7 +16,7 @@ const Navbar = () => {
   const classes = useStyles();
 
   return (
-    <AppBar>
+    <AppBar position="static">
       <Toolbar>
         <Typography className={classes.title} variant="h6">
           WeView
