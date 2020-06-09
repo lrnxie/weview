@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link as RouterLink } from "react-router-dom";
 import axios from "axios";
 
 import { makeStyles } from "@material-ui/core/styles";
@@ -6,6 +7,7 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import Typography from "@material-ui/core/Typography";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import Link from "@material-ui/core/Link";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -51,23 +53,35 @@ const Results = ({ match }) => {
         <List>
           {results.map((result, index) => (
             <ListItem key={index}>
-              <img
-                className={classes.poster}
-                src={
-                  result.poster_path
-                    ? `https://image.tmdb.org/t/p/w500/${result.poster_path}`
-                    : "https://www.themoviedb.org/assets/2/v4/glyphicons/basic/glyphicons-basic-38-picture-4ee37443c461fff5bc221b43ae018a5dae317469c8e2479a87d562537dd45fdc.svg"
-                }
-                alt=""
-              />
+              <Link
+                component={RouterLink}
+                to={`/${result.media_type}/${result.id}`}
+              >
+                <img
+                  className={classes.poster}
+                  src={
+                    result.poster_path
+                      ? `https://image.tmdb.org/t/p/w500/${result.poster_path}`
+                      : "https://www.themoviedb.org/assets/2/v4/glyphicons/basic/glyphicons-basic-38-picture-4ee37443c461fff5bc221b43ae018a5dae317469c8e2479a87d562537dd45fdc.svg"
+                  }
+                  alt=""
+                />
+              </Link>
               <div className={classes.details}>
-                <Typography variant="subtitle1">
-                  {result.title || result.name}{" "}
-                  {result.release_date &&
-                    `(${result.release_date.slice(0, 4)})`}
-                  {result.first_air_date &&
-                    `(${result.first_air_date.slice(0, 4)})`}
-                </Typography>
+                <Link
+                  component={RouterLink}
+                  to={`/${result.media_type}/${result.id}`}
+                  color="inherit"
+                  underline="none"
+                >
+                  <Typography variant="subtitle1">
+                    {result.title || result.name}{" "}
+                    {result.release_date &&
+                      `(${result.release_date.slice(0, 4)})`}
+                    {result.first_air_date &&
+                      `(${result.first_air_date.slice(0, 4)})`}
+                  </Typography>
+                </Link>
                 <Typography variant="subtitle2">
                   <span role="img" aria-label="star">
                     ⭐️
