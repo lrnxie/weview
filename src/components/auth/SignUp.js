@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const SignUp = ({ history }) => {
-  const { user, signUp } = useContext(AuthContext);
+  const { user, authLoading, signUp } = useContext(AuthContext);
   const classes = useStyles();
   const [info, setInfo] = useState({
     email: "",
@@ -49,39 +49,41 @@ const SignUp = ({ history }) => {
   });
 
   return (
-    <div className={classes.root}>
-      <Typography variant="h6">Sign Up</Typography>
-      <form onSubmit={handleSubmit} className={classes.form}>
-        <TextField
-          autoFocus
-          variant="outlined"
-          label="Email"
-          type="email"
-          name="email"
-          value={email}
-          onChange={handleChange}
-        />
-        <TextField
-          variant="outlined"
-          label="Password"
-          type="password"
-          name="password"
-          value={password}
-          onChange={handleChange}
-        />
-        <TextField
-          variant="outlined"
-          label="Confirm Password"
-          type="password"
-          name="password2"
-          value={password2}
-          onChange={handleChange}
-        />
-        <Button type="submit" variant="contained" color="primary">
-          Sign Up
-        </Button>
-      </form>
-    </div>
+    !authLoading && (
+      <div className={classes.root}>
+        <Typography variant="h6">Sign Up</Typography>
+        <form onSubmit={handleSubmit} className={classes.form}>
+          <TextField
+            autoFocus
+            variant="outlined"
+            label="Email"
+            type="email"
+            name="email"
+            value={email}
+            onChange={handleChange}
+          />
+          <TextField
+            variant="outlined"
+            label="Password"
+            type="password"
+            name="password"
+            value={password}
+            onChange={handleChange}
+          />
+          <TextField
+            variant="outlined"
+            label="Confirm Password"
+            type="password"
+            name="password2"
+            value={password2}
+            onChange={handleChange}
+          />
+          <Button type="submit" variant="contained" color="primary">
+            Sign Up
+          </Button>
+        </form>
+      </div>
+    )
   );
 };
 

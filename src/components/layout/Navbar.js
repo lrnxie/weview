@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useContext, Fragment } from "react";
 import { Link as RouterLink } from "react-router-dom";
+import { AuthContext } from "../../contexts/AuthContext";
 
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
@@ -15,7 +16,26 @@ const useStyles = makeStyles(() => ({
 }));
 
 const Navbar = () => {
+  const { user, authLoading, logOut } = useContext(AuthContext);
   const classes = useStyles();
+
+  const links = user ? (
+    <Fragment>
+      <Button color="inherit">Account</Button>
+      <Button color="inherit" onClick={logOut}>
+        Log Out
+      </Button>
+    </Fragment>
+  ) : (
+    <Fragment>
+      <Button color="inherit" component={RouterLink} to="/login">
+        Log In
+      </Button>
+      <Button color="inherit" component={RouterLink} to="/signup">
+        Sign Up
+      </Button>
+    </Fragment>
+  );
 
   return (
     <AppBar position="static">
@@ -25,12 +45,7 @@ const Navbar = () => {
             WeView
           </Link>
         </Typography>
-        <Button color="inherit" component={RouterLink} to="/login">
-          Log In
-        </Button>
-        <Button color="inherit" component={RouterLink} to="/signup">
-          Sign Up
-        </Button>
+        {!authLoading && links}
       </Toolbar>
     </AppBar>
   );

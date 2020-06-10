@@ -5,6 +5,7 @@ export const AuthContext = createContext();
 
 export const AuthContextProvider = (props) => {
   const [user, setUser] = useState(null);
+  const [authLoading, setLoading] = useState(true);
 
   const logIn = (email, password) => {
     auth
@@ -39,6 +40,7 @@ export const AuthContextProvider = (props) => {
       if (user) {
         setUser({ id: user.uid, email: user.email });
       }
+      setLoading(false);
     });
     return () => {
       unsbuscribe();
@@ -46,7 +48,7 @@ export const AuthContextProvider = (props) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, logIn, signUp, logOut }}>
+    <AuthContext.Provider value={{ user, authLoading, logIn, signUp, logOut }}>
       {props.children}
     </AuthContext.Provider>
   );

@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const LogIn = ({ history }) => {
-  const { user, logIn } = useContext(AuthContext);
+  const { user, authLoading, logIn } = useContext(AuthContext);
   const classes = useStyles();
   const [info, setInfo] = useState({
     email: "",
@@ -48,31 +48,33 @@ const LogIn = ({ history }) => {
   });
 
   return (
-    <div className={classes.root}>
-      <Typography variant="h6">Log In</Typography>
-      <form onSubmit={handleSubmit} className={classes.form}>
-        <TextField
-          autoFocus
-          variant="outlined"
-          label="Email"
-          type="email"
-          name="email"
-          value={email}
-          onChange={handleChange}
-        />
-        <TextField
-          variant="outlined"
-          label="Password"
-          type="password"
-          name="password"
-          value={password}
-          onChange={handleChange}
-        />
-        <Button type="submit" variant="contained" color="primary">
-          Log In
-        </Button>
-      </form>
-    </div>
+    !authLoading && (
+      <div className={classes.root}>
+        <Typography variant="h6">Log In</Typography>
+        <form onSubmit={handleSubmit} className={classes.form}>
+          <TextField
+            autoFocus
+            variant="outlined"
+            label="Email"
+            type="email"
+            name="email"
+            value={email}
+            onChange={handleChange}
+          />
+          <TextField
+            variant="outlined"
+            label="Password"
+            type="password"
+            name="password"
+            value={password}
+            onChange={handleChange}
+          />
+          <Button type="submit" variant="contained" color="primary">
+            Log In
+          </Button>
+        </form>
+      </div>
+    )
   );
 };
 
