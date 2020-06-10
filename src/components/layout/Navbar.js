@@ -25,8 +25,12 @@ const Navbar = () => {
             WeView
           </Link>
         </Typography>
-        <Button color="inherit">Log In</Button>
-        <Button color="inherit">Sign Up</Button>
+        <Button color="inherit" component={RouterLink} to="/login">
+          Log In
+        </Button>
+        <Button color="inherit" component={RouterLink} to="/signup">
+          Sign Up
+        </Button>
       </Toolbar>
     </AppBar>
   );
