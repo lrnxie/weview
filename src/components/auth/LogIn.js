@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
+import { AuthContext } from "../../contexts/AuthContext";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
@@ -22,7 +23,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const LogIn = () => {
+const LogIn = ({ history }) => {
+  const { user, logIn } = useContext(AuthContext);
   const classes = useStyles();
   const [info, setInfo] = useState({
     email: "",
@@ -36,8 +38,14 @@ const LogIn = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(info);
+    logIn(email, password);
   };
+
+  useEffect(() => {
+    if (user) {
+      history.push("/");
+    }
+  });
 
   return (
     <div className={classes.root}>
