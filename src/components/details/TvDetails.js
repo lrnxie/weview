@@ -4,6 +4,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Rating from "@material-ui/lab/Rating";
 
+import UserRating from "./UserRating";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
@@ -47,6 +49,7 @@ const MovieDetails = ({ details }) => {
     genres,
     vote_average,
     overview,
+    id,
   } = details;
 
   return (
@@ -79,6 +82,8 @@ const MovieDetails = ({ details }) => {
             {vote_average === 0 ? "N/A" : vote_average}
           </Typography>
         </div>
+
+        <UserRating type="tv" media_id={id} />
 
         <div>
           <Typography variant="h6">Overview</Typography>
