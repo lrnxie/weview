@@ -6,6 +6,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+import Alert from "@material-ui/lab/Alert";
 
 import { AuthContext } from "../../contexts/AuthContext";
 
@@ -27,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const LogIn = ({ history }) => {
-  const { user, authLoading, logIn } = useContext(AuthContext);
+  const { user, authLoading, alert, logIn } = useContext(AuthContext);
   const classes = useStyles();
 
   const formik = useFormik({
@@ -57,6 +58,12 @@ const LogIn = ({ history }) => {
     !authLoading && (
       <div className={classes.root}>
         <Typography variant="h6">Log In</Typography>
+
+        {alert && (
+          <Alert severity="error" style={{ maxWidth: 350 }}>
+            {alert}
+          </Alert>
+        )}
 
         <form onSubmit={formik.handleSubmit} className={classes.form}>
           <TextField

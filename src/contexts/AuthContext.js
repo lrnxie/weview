@@ -6,15 +6,17 @@ export const AuthContext = createContext();
 export const AuthContextProvider = (props) => {
   const [user, setUser] = useState(null);
   const [authLoading, setLoading] = useState(true);
+  const [alert, setAlert] = useState(null);
 
   const logIn = (email, password) => {
     auth
       .signInWithEmailAndPassword(email, password)
       .then((res) => {
         setUser({ id: res.user.uid, email: res.user.email });
+        setAlert(null);
       })
       .catch((err) => {
-        console.log(err);
+        setAlert(err.message);
       });
   };
 
@@ -23,9 +25,10 @@ export const AuthContextProvider = (props) => {
       .createUserWithEmailAndPassword(email, password)
       .then((res) => {
         db.collection("users").doc(res.user.uid).set({ email: res.user.email });
+        setAlert(null);
       })
       .catch((err) => {
-        console.log(err);
+        setAlert(err.message);
       });
   };
 
@@ -48,7 +51,9 @@ export const AuthContextProvider = (props) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, authLoading, logIn, signUp, logOut }}>
+    <AuthContext.Provider
+      value={{ user, authLoading, alert, logIn, signUp, logOut }}
+    >
       {props.children}
     </AuthContext.Provider>
   );
