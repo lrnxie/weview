@@ -1,10 +1,13 @@
-import React, { useContext, useState, useEffect } from "react";
-import { AuthContext } from "../../contexts/AuthContext";
+import React, { useContext, useEffect } from "react";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+
+import { AuthContext } from "../../contexts/AuthContext";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -26,20 +29,23 @@ const useStyles = makeStyles((theme) => ({
 const LogIn = ({ history }) => {
   const { user, authLoading, logIn } = useContext(AuthContext);
   const classes = useStyles();
-  const [info, setInfo] = useState({
-    email: "",
-    password: "",
+
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    validationSchema: Yup.object({
+      email: Yup.string()
+        .trim()
+        .email("Invalid email address")
+        .required("Email is required"),
+      password: Yup.string().required("Password is required"),
+    }),
+    onSubmit: (values) => {
+      logIn(values.email.trim(), values.password);
+    },
   });
-  const { email, password } = info;
-
-  const handleChange = (e) => {
-    setInfo({ ...info, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    logIn(email, password);
-  };
 
   useEffect(() => {
     if (user) {
@@ -51,23 +57,32 @@ const LogIn = ({ history }) => {
     !authLoading && (
       <div className={classes.root}>
         <Typography variant="h6">Log In</Typography>
-        <form onSubmit={handleSubmit} className={classes.form}>
+
+        <form onSubmit={formik.handleSubmit} className={classes.form}>
           <TextField
             autoFocus
             variant="outlined"
             label="Email"
-            type="email"
+            type="text"
             name="email"
-            value={email}
-            onChange={handleChange}
+            value={formik.values.email}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={formik.touched.email && formik.errors.email !== undefined}
+            helperText={formik.touched.email && formik.errors.email}
           />
           <TextField
             variant="outlined"
             label="Password"
             type="password"
             name="password"
-            value={password}
-            onChange={handleChange}
+            value={formik.values.password}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={
+              formik.touched.password && formik.errors.password !== undefined
+            }
+            helperText={formik.touched.password && formik.errors.password}
           />
           <Button type="submit" variant="contained" color="primary">
             Log In
