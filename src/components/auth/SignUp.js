@@ -28,7 +28,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const SignUp = ({ history }) => {
-  const { user, authLoading, alert, signUp } = useContext(AuthContext);
+  const { user, authLoading, alert, setAlert, signUp } = useContext(
+    AuthContext
+  );
   const classes = useStyles();
 
   const formik = useFormik({
@@ -59,6 +61,10 @@ const SignUp = ({ history }) => {
       history.push("/");
     }
   });
+
+  useEffect(() => {
+    return () => setAlert(null);
+  }, []);
 
   return (
     !authLoading && (
