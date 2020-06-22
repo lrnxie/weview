@@ -35,11 +35,16 @@ const SignUp = ({ history }) => {
 
   const formik = useFormik({
     initialValues: {
+      username: "",
       email: "",
       password: "",
       passwordConfirm: "",
     },
     validationSchema: Yup.object({
+      username: Yup.string()
+        .trim()
+        .max(20, "Username should be less than 20 characters")
+        .required("Username is required"),
       email: Yup.string()
         .trim()
         .email("Invalid email address")
@@ -52,7 +57,7 @@ const SignUp = ({ history }) => {
         .required("Confirm your password"),
     }),
     onSubmit: (values) => {
-      signUp(values.email.trim(), values.password);
+      signUp(values.username.trim(), values.email.trim(), values.password);
     },
   });
 
@@ -80,6 +85,19 @@ const SignUp = ({ history }) => {
         <form onSubmit={formik.handleSubmit} className={classes.form}>
           <TextField
             autoFocus
+            variant="outlined"
+            label="Username"
+            type="text"
+            name="username"
+            value={formik.values.username}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={
+              formik.touched.username && formik.errors.username !== undefined
+            }
+            helperText={formik.touched.username && formik.errors.username}
+          />
+          <TextField
             variant="outlined"
             label="Email"
             type="text"

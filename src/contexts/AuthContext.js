@@ -11,37 +11,39 @@ export const AuthContextProvider = (props) => {
   const logIn = (email, password) => {
     auth
       .signInWithEmailAndPassword(email, password)
-      .then((res) => {
-        setUser({ id: res.user.uid, email: res.user.email });
-        setAlert(null);
-      })
-      .catch((err) => {
-        setAlert(err.message);
-      });
+      .catch((err) => setAlert(err.message));
   };
 
-  const signUp = (email, password) => {
+  const signUp = (username, email, password) => {
     auth
       .createUserWithEmailAndPassword(email, password)
       .then((res) => {
-        db.collection("users").doc(res.user.uid).set({ email: res.user.email });
-        setAlert(null);
+        auth.currentUser.updateProfile({ displayName: username }).then(() => {
+          db.collection("users")
+            .doc(res.user.uid)
+            .set({ username, email: res.user.email });
+          setUser({
+            id: res.user.uid,
+            email: res.user.email,
+            username: res.user.displayName,
+          });
+        });
       })
-      .catch((err) => {
-        setAlert(err.message);
-      });
+      .catch((err) => setAlert(err.message));
   };
 
   const logOut = () => {
-    auth.signOut().then(() => {
-      setUser(null);
-    });
+    auth.signOut().then(() => setUser(null));
   };
 
   useEffect(() => {
     const unsbuscribe = auth.onAuthStateChanged((user) => {
       if (user) {
-        setUser({ id: user.uid, email: user.email });
+        setUser({
+          id: user.uid,
+          email: user.email,
+          username: user.displayName,
+        });
       }
       setLoading(false);
     });

@@ -21,7 +21,9 @@ const Navbar = () => {
 
   const links = user ? (
     <Fragment>
-      <Button color="inherit">Account</Button>
+      <Button color="inherit" style={{ textTransform: "none" }}>
+        {user.username}
+      </Button>
       <Button color="inherit" onClick={logOut}>
         Log Out
       </Button>
