@@ -1,5 +1,4 @@
 import React from "react";
-
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Rating from "@material-ui/lab/Rating";
@@ -83,12 +82,15 @@ const MovieDetails = ({ details }) => {
           </Typography>
         </div>
 
-        <UserRating
-          type="tv"
-          media_id={id}
-          title={name}
-          poster_path={poster_path}
-        />
+        <div className={classes.rating}>
+          <UserRating
+            type="tv"
+            media_id={id}
+            title={name}
+            poster_path={poster_path}
+          />
+          <Typography variant="body2">My Rating</Typography>
+        </div>
 
         <div>
           <Typography variant="h6">Overview</Typography>

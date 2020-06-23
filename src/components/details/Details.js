@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { makeStyles } from "@material-ui/core/styles";
+import CircularProgress from "@material-ui/core/CircularProgress";
+
 import MovieDetails from "./MovieDetails";
 import TvDetails from "./TvDetails";
-
-import { makeStyles } from "@material-ui/core/styles";
-import { CircularProgress } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   loading: {
