@@ -21,7 +21,7 @@ export const RatingContextProvider = (props) => {
           .collection("users")
           .doc(user.id)
           .collection("ratings")
-          .add(ratingInfo);
+          .add({ ...ratingInfo, created_at: Date.now() });
   };
 
   useEffect(() => {
@@ -30,6 +30,7 @@ export const RatingContextProvider = (props) => {
         .collection("users")
         .doc(user.id)
         .collection("ratings")
+        .orderBy("created_at", "desc")
         .onSnapshot((snapshot) => {
           const userRatings = snapshot.docs.map((doc) => ({
             id: doc.id,
