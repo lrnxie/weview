@@ -1,4 +1,4 @@
-import React, { useContext, Fragment } from "react";
+import React, { useContext, useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
 
@@ -8,6 +8,8 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import Link from "@material-ui/core/Link";
 import Button from "@material-ui/core/Button";
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
 
 const useStyles = makeStyles(() => ({
   title: {
@@ -16,27 +18,62 @@ const useStyles = makeStyles(() => ({
 }));
 
 const Navbar = () => {
-  const { user, authLoading, logOut } = useContext(AuthContext);
   const classes = useStyles();
+  const { user, authLoading, logOut } = useContext(AuthContext);
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const handleClick = (e) => {
+    setAnchorEl(e.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const menu = (
+    <Menu
+      anchorEl={anchorEl}
+      keepMounted
+      open={Boolean(anchorEl)}
+      onClose={handleClose}
+    >
+      <MenuItem onClick={handleClose} component={RouterLink} to="/ratings">
+        My Ratings
+      </MenuItem>
+      <MenuItem onClick={handleClose} component={RouterLink} to="/settings">
+        Account Settings
+      </MenuItem>
+      <MenuItem
+        onClick={() => {
+          logOut();
+          handleClose();
+        }}
+      >
+        Log Out
+      </MenuItem>
+    </Menu>
+  );
 
   const links = user ? (
-    <Fragment>
-      <Button color="inherit" style={{ textTransform: "none" }}>
-        {user.username}
+    <>
+      <Button
+        color="inherit"
+        style={{ textTransform: "none" }}
+        onClick={handleClick}
+      >
+        Hi, {user.username}
       </Button>
-      <Button color="inherit" onClick={logOut}>
-        Log Out
-      </Button>
-    </Fragment>
+      {menu}
+    </>
   ) : (
-    <Fragment>
+    <>
       <Button color="inherit" component={RouterLink} to="/login">
         Log In
       </Button>
       <Button color="inherit" component={RouterLink} to="/signup">
         Sign Up
       </Button>
-    </Fragment>
+    </>
   );
 
   return (

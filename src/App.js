@@ -10,6 +10,9 @@ import Results from "./components/search/Results";
 import Details from "./components/details/Details";
 import LogIn from "./components/auth/LogIn";
 import SignUp from "./components/auth/SignUp";
+import PrivateRoute from "./components/layout/PrivateRoute";
+import AccountSettings from "./components/user/AccountSettings";
+import MyRatings from "./components/user/MyRatings";
 
 function App() {
   return (
@@ -18,6 +21,8 @@ function App() {
         <BrowserRouter>
           <Navbar />
           <Switch>
+            <PrivateRoute exact path="/settings" component={AccountSettings} />
+            <PrivateRoute exact path="/ratings" component={MyRatings} />
             <Route exact path="/" component={Home} />
             <Route exact path="/search/:query" component={Results} />
             <Route exact path="/:type/:id" component={Details} />
