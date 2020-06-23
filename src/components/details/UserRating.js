@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const UserRating = ({ type, media_id }) => {
+const UserRating = ({ type, media_id, title, poster_path }) => {
   const classes = useStyles();
   const { user } = useContext(AuthContext);
   const { ratings, ratingLoading, updateRating } = useContext(RatingContext);
@@ -26,7 +26,13 @@ const UserRating = ({ type, media_id }) => {
   const initRating = !ratingLoading && matchRating ? matchRating.rating : null;
 
   const handleChange = (e) => {
-    const ratingInfo = { media_id, rating: +e.target.value, type };
+    const ratingInfo = {
+      media_id,
+      rating: +e.target.value,
+      type,
+      title,
+      poster_path,
+    };
     const ratingId = matchRating ? matchRating.id : null;
     updateRating(ratingInfo, ratingId);
   };

@@ -83,7 +83,12 @@ const MovieDetails = ({ details }) => {
           </Typography>
         </div>
 
-        <UserRating type="tv" media_id={id} />
+        <UserRating
+          type="tv"
+          media_id={id}
+          title={name}
+          poster_path={poster_path}
+        />
 
         <div>
           <Typography variant="h6">Overview</Typography>
