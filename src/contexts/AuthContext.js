@@ -36,6 +36,21 @@ export const AuthContextProvider = (props) => {
     auth.signOut().then(() => setUser(null));
   };
 
+  const updateUsername = (newUsername, userId) => {
+    auth.currentUser.updateProfile({ displayName: newUsername }).then(() => {
+      db.collection("users").doc(userId).update({ username: newUsername });
+      setUser({ ...user, username: newUsername });
+      console.log("Username updated");
+    });
+  };
+
+  const updatePassword = (newPassword) => {
+    auth.currentUser
+      .updatePassword(newPassword)
+      .then(() => console.log("Password updated"))
+      .catch((err) => console.log(err.message));
+  };
+
   useEffect(() => {
     const unsbuscribe = auth.onAuthStateChanged((user) => {
       if (user) {
@@ -54,7 +69,17 @@ export const AuthContextProvider = (props) => {
 
   return (
     <AuthContext.Provider
-      value={{ user, authLoading, alert, setAlert, logIn, signUp, logOut }}
+      value={{
+        user,
+        authLoading,
+        alert,
+        setAlert,
+        logIn,
+        signUp,
+        logOut,
+        updateUsername,
+        updatePassword,
+      }}
     >
       {props.children}
     </AuthContext.Provider>
