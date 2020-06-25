@@ -10,6 +10,7 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 
 import { AuthContext } from "../../contexts/AuthContext";
+import DeleteUser from "./DeleteUser";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -174,6 +175,8 @@ const AccountSettings = () => {
             </form>
           )}
         </Formik>
+
+        <DeleteUser />
       </div>
     )
   );

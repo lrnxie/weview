@@ -51,6 +51,16 @@ export const AuthContextProvider = (props) => {
       .catch((err) => console.log(err.message));
   };
 
+  const deleteUser = () => {
+    auth.currentUser
+      .delete()
+      .then(() => {
+        console.log("User deleted");
+        setUser(null);
+      })
+      .catch((err) => console.log(err.message));
+  };
+
   useEffect(() => {
     const unsbuscribe = auth.onAuthStateChanged((user) => {
       if (user) {
@@ -79,6 +89,7 @@ export const AuthContextProvider = (props) => {
         logOut,
         updateUsername,
         updatePassword,
+        deleteUser,
       }}
     >
       {props.children}
