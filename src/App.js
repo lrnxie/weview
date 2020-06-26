@@ -5,6 +5,7 @@ import { AuthContextProvider } from "./contexts/AuthContext";
 import { RatingContextProvider } from "./contexts/RatingContext";
 
 import Navbar from "./components/layout/Navbar";
+import AlertToast from "./components/layout/AlertToast";
 import Home from "./components/layout/Home";
 import Results from "./components/search/Results";
 import Details from "./components/details/Details";
@@ -20,6 +21,7 @@ function App() {
       <RatingContextProvider>
         <BrowserRouter>
           <Navbar />
+          <AlertToast />
           <Switch>
             <PrivateRoute exact path="/settings" component={AccountSettings} />
             <PrivateRoute exact path="/ratings" component={MyRatings} />

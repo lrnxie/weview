@@ -11,7 +11,8 @@ export const AuthContextProvider = (props) => {
   const logIn = (email, password) => {
     auth
       .signInWithEmailAndPassword(email, password)
-      .catch((err) => setAlert(err.message));
+      .then(() => setAlert({ type: "success", msg: "Log in success" }))
+      .catch((err) => setAlert({ type: "error", msg: err.message }));
   };
 
   const signUp = (username, email, password) => {
@@ -27,38 +28,45 @@ export const AuthContextProvider = (props) => {
             email: res.user.email,
             username: res.user.displayName,
           });
+          setAlert({ type: "success", msg: "Sign up success" });
         });
       })
-      .catch((err) => setAlert(err.message));
+      .catch((err) => setAlert({ type: "error", msg: err.message }));
   };
 
   const logOut = () => {
-    auth.signOut().then(() => setUser(null));
+    auth.signOut().then(() => {
+      setUser(null);
+      setAlert({ type: "info", msg: "You have logged out" });
+    });
   };
 
   const updateUsername = (newUsername, userId) => {
-    auth.currentUser.updateProfile({ displayName: newUsername }).then(() => {
-      db.collection("users").doc(userId).update({ username: newUsername });
-      setUser({ ...user, username: newUsername });
-      console.log("Username updated");
-    });
+    auth.currentUser
+      .updateProfile({ displayName: newUsername })
+      .then(() => {
+        db.collection("users").doc(userId).update({ username: newUsername });
+        setUser({ ...user, username: newUsername });
+        setAlert({ type: "success", msg: "Username updated" });
+      })
+      .catch((err) => setAlert({ type: "error", msg: err.message }));
   };
 
   const updatePassword = (newPassword) => {
     auth.currentUser
       .updatePassword(newPassword)
-      .then(() => console.log("Password updated"))
-      .catch((err) => console.log(err.message));
+      .then(() => setAlert({ type: "success", msg: "Password updated" }))
+      .catch((err) => setAlert({ type: "error", msg: err.message }));
   };
 
   const deleteUser = () => {
     auth.currentUser
       .delete()
       .then(() => {
-        console.log("User deleted");
+        setAlert({ type: "success", msg: "User deleted" });
         setUser(null);
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) => setAlert({ type: "error", msg: err.message }));
   };
 
   useEffect(() => {
@@ -83,7 +91,6 @@ export const AuthContextProvider = (props) => {
         user,
         authLoading,
         alert,
-        setAlert,
         logIn,
         signUp,
         logOut,
