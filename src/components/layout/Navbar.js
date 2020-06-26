@@ -8,7 +8,8 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import Link from "@material-ui/core/Link";
 import Button from "@material-ui/core/Button";
-import Menu from "@material-ui/core/Menu";
+import Popover from "@material-ui/core/Popover";
+import MenuList from "@material-ui/core/MenuList";
 import MenuItem from "@material-ui/core/MenuItem";
 
 const useStyles = makeStyles(() => ({
@@ -31,27 +32,36 @@ const Navbar = () => {
   };
 
   const menu = (
-    <Menu
-      anchorEl={anchorEl}
-      keepMounted
+    <Popover
       open={Boolean(anchorEl)}
+      anchorEl={anchorEl}
       onClose={handleClose}
+      anchorOrigin={{
+        vertical: "bottom",
+        horizontal: "center",
+      }}
+      transformOrigin={{
+        vertical: "top",
+        horizontal: "center",
+      }}
     >
-      <MenuItem onClick={handleClose} component={RouterLink} to="/ratings">
-        My Ratings
-      </MenuItem>
-      <MenuItem onClick={handleClose} component={RouterLink} to="/settings">
-        Account Settings
-      </MenuItem>
-      <MenuItem
-        onClick={() => {
-          logOut();
-          handleClose();
-        }}
-      >
-        Log Out
-      </MenuItem>
-    </Menu>
+      <MenuList>
+        <MenuItem onClick={handleClose} component={RouterLink} to="/ratings">
+          My Ratings
+        </MenuItem>
+        <MenuItem onClick={handleClose} component={RouterLink} to="/settings">
+          Account Settings
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            logOut();
+            handleClose();
+          }}
+        >
+          Log Out
+        </MenuItem>
+      </MenuList>
+    </Popover>
   );
 
   const links = user ? (
