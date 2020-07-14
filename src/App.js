@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 
 import { AuthContextProvider } from "./contexts/AuthContext";
 import { RatingContextProvider } from "./contexts/RatingContext";
@@ -30,6 +30,7 @@ function App() {
             <Route exact path="/:type/:id" component={Details} />
             <Route exact path="/login" component={LogIn} />
             <Route exact path="/signup" component={SignUp} />
+            <Redirect from="*" to="/" />
           </Switch>
         </BrowserRouter>
       </RatingContextProvider>

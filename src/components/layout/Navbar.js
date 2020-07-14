@@ -1,8 +1,5 @@
 import React, { useContext, useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
-import { AuthContext } from "../../contexts/AuthContext";
-
-import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
@@ -12,14 +9,9 @@ import Popover from "@material-ui/core/Popover";
 import MenuList from "@material-ui/core/MenuList";
 import MenuItem from "@material-ui/core/MenuItem";
 
-const useStyles = makeStyles(() => ({
-  title: {
-    flexGrow: 1,
-  },
-}));
+import { AuthContext } from "../../contexts/AuthContext";
 
 const Navbar = () => {
-  const classes = useStyles();
   const { user, authLoading, logOut } = useContext(AuthContext);
   const [anchorEl, setAnchorEl] = useState(null);
 
@@ -89,7 +81,7 @@ const Navbar = () => {
   return (
     <AppBar position="static">
       <Toolbar>
-        <Typography variant="h6" className={classes.title}>
+        <Typography variant="h6" style={{ flexGrow: 1 }}>
           <Link component={RouterLink} to="/" color="inherit" underline="none">
             WeView
           </Link>

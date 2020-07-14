@@ -72,7 +72,7 @@ const MyRatings = () => {
           ))}
         </Grid>
       ) : (
-        <Typography align="center">You have not rate anything yet</Typography>
+        <Typography align="center">You have not rated anything yet</Typography>
       )}
     </div>
   );

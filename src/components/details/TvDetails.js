@@ -89,7 +89,6 @@ const MovieDetails = ({ details }) => {
             title={name}
             poster_path={poster_path}
           />
-          <Typography variant="body2">My Rating</Typography>
         </div>
 
         <div>

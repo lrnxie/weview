@@ -2,12 +2,13 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { makeStyles } from "@material-ui/core/styles";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import Typography from "@material-ui/core/Typography";
 
 import MovieDetails from "./MovieDetails";
 import TvDetails from "./TvDetails";
 
 const useStyles = makeStyles((theme) => ({
-  loading: {
+  status: {
     display: "flex",
     justifyContent: "center",
     marginTop: theme.spacing(8),
@@ -22,19 +23,27 @@ const Details = ({ match }) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await axios.get(
-        `https://api.themoviedb.org/3/${type}/${id}?api_key=${process.env.REACT_APP_TMDB_API_KEY}`
-      );
-      setDetails(res.data);
-      setLoading(false);
+      try {
+        const res = await axios.get(
+          `https://api.themoviedb.org/3/${type}/${id}?api_key=${process.env.REACT_APP_TMDB_API_KEY}`
+        );
+        setDetails(res.data);
+        setLoading(false);
+      } catch (err) {
+        setDetails(err.response.data);
+        setLoading(false);
+      }
     };
+
     fetchData();
   }, [type, id]);
 
   return loading ? (
-    <div className={classes.loading}>
+    <div className={classes.status}>
       <CircularProgress />
     </div>
+  ) : details.status_message ? (
+    <Typography className={classes.status}>{details.status_message}</Typography>
   ) : type === "movie" ? (
     <MovieDetails details={details} />
   ) : (

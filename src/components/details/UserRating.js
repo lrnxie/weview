@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import Typography from "@material-ui/core/Typography";
 import Rating from "@material-ui/lab/Rating";
 
 import { AuthContext } from "../../contexts/AuthContext";
@@ -26,7 +27,10 @@ const UserRating = ({ type, media_id, title, poster_path }) => {
   return (
     user &&
     !ratingLoading && (
-      <Rating name="rating" value={initRating} onChange={handleChange} />
+      <>
+        <Rating name="rating" value={initRating} onChange={handleChange} />
+        <Typography variant="body2">My Rating</Typography>
+      </>
     )
   );
 };
